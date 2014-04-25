@@ -27,7 +27,6 @@ using namespace std;
 
 int write_Mstar_dens(int i,double U_Mass)
 {
-
   system("mkdir SFR");
   //cout<<"Generando Archivos de Salida...."<<endl;
   stringstream num;
@@ -41,8 +40,8 @@ int write_Mstar_dens(int i,double U_Mass)
   FILE *MstarsT; // 
   MstarsT=fopen("SFR/M_Stars_Time","a");
 
-//////////////// ORDENANDO POR R CILINDRICO//////////////////////////////////
-//cout<<"Ordenando R"<<endl;
+  //////////////// ORDENANDO POR R CILINDRICO//////////////////////////////////
+  //cout<<"Ordenando R"<<endl;
   double Rmax0;
   NRvector<double> Rcil(NumPart);
   NRvector<double> auxRcil(NumPart);
@@ -79,7 +78,8 @@ int write_Mstar_dens(int i,double U_Mass)
 }
 
 
-int SFR(){
+int SFR(double Utime, double Umass){
+
    ifstream SFR_out("SFR/M_Stars_Time");
    int Nlineas=0;
    while(!SFR_out.eof()){
@@ -104,10 +104,12 @@ int SFR(){
 
    double dm;
    double dt;
-   for(int k=1;k<Nlineas/2.0;k++){
+   for(int k=1;k<Nlineas-1;k++){
       cout<<"k "<<k<<endl;
       dm=Mstar[k+1]-Mstar[k-1];
       dt=Time[k+1]-Time[k-1];
+      dm=dm*Umass/Msun;
+      dt=dt*Utime/year;
       dSfr_out<<dm/dt<<" "<<Time[k]<<endl;
    }
 
