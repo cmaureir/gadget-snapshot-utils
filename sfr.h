@@ -25,7 +25,7 @@ int allocate_memory(void);
 using namespace std; 
 
 
-int write_Mstar_dens(int i,double U_Mass)
+int write_Mstar_dens(int i,double U_Mass, double Utime)
 {
   system("mkdir SFR");
   //cout<<"Generando Archivos de Salida...."<<endl;
@@ -62,14 +62,14 @@ int write_Mstar_dens(int i,double U_Mass)
   float r;
   for(long i=1;i<=NumPart;i++){
     if(P[i].Type==4){
-    Mstars=Mstars+P[i].Mass*U_Mass;
+    Mstars=Mstars+P[i].Mass;
     }
     if(P[i].Type==0){
       Dens<<P[i].Rho<<endl;
     }
   }
 
-  fprintf(MstarsT, "%f %f \n",header1.time,Mstars );
+  fprintf(MstarsT, "%e %e \n",header1.time*Utime/year,Mstars*U_Mass/Msun );
 
   Dens.close(); 
   fclose(MstarsT);
@@ -78,25 +78,40 @@ int write_Mstar_dens(int i,double U_Mass)
 }
 
 
-int SFR(double Utime, double Umass){
+int SFR(){
 
    ifstream SFR_out("SFR/M_Stars_Time");
+   
+
+   system("wc SFR/M_Stars_Time > SFR/wcSFR");
+   system("awk '{print $1}' SFR/wcSFR > SFR/lineas");
+   system("rm SFR/wcSFR");
+        
+    
+   ifstream lineas("SFR/lineas", ios::in);
+            
    int Nlineas=0;
-   while(!SFR_out.eof()){
-    Nlineas++;
-    cout<<Nlineas<<endl;
-   }
-   cout<<Nlineas<<endl;
+   lineas >> Nlineas;
+                    
+
+
+
+
+   //while(!SFR_out.eof()){
+   // Nlineas++;
+    //cout<<Nlineas<<endl;
+   //}
+   //cout<<Nlineas<<endl;
    NRvector<double> Mstar(Nlineas);
    NRvector<double> Time(Nlineas);
 
 
    int i=0;
-   while(! SFR_out.eof()){
+   while(i<Nlineas){
      SFR_out >> Mstar[i] >>Time[i]; 
      //cout<<Mstar[i]<<" "<<Time[i]<endl;
      i++;
-     cout<<"i "<<i<<endl;
+     cout<<"Reading M_Stars_Time line"<<i<<endl;
    }
 
    string NomdSfr="SFR/dSfr";
@@ -108,9 +123,7 @@ int SFR(double Utime, double Umass){
       cout<<"k "<<k<<endl;
       dm=Mstar[k+1]-Mstar[k-1];
       dt=Time[k+1]-Time[k-1];
-      dm=dm*Umass/Msun;
-      dt=dt*Utime/year;
-      dSfr_out<<dm/dt<<" "<<Time[k]<<endl;
+      dSfr_out<<Time[k]<" "<<dm/dt<<endl;
    }
 
    dSfr_out.close();
