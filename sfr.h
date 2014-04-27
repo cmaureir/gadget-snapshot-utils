@@ -40,23 +40,7 @@ int write_Mstar_dens(int i,double U_Mass, double Utime)
   FILE *MstarsT; // 
   MstarsT=fopen("SFR/M_Stars_Time","a");
 
-  //////////////// ORDENANDO POR R CILINDRICO//////////////////////////////////
-  //cout<<"Ordenando R"<<endl;
-  double Rmax0;
-  NRvector<double> Rcil(NumPart);
-  NRvector<double> auxRcil(NumPart);
-
-  for(long n=1; n<=NumPart; n++){
-    Rcil[n-1]=sqrt(P[n].Pos[0]*P[n].Pos[0]+P[n].Pos[1]*P[n].Pos[1]);
-  }
-
-  Indexx indiceR(Rcil);
-  indiceR.sort(auxRcil);
-  double Rmax=Rcil[indiceR.indx[NumPart-1]];
-  //cout<<"Rmax = "<<Rmax<<endl;
-  if(i==0) Rmax0=Rmax;
-
-/////////// DENSIDAD Y MASA SOLAR/////////////////////////////////////////////
+/////////// DESITY AND TOTAL STAR MASS ////////////////////////////////////////////
   cout<<"Extrayendo densidad..."<<endl;
   double Mstars=0.0;
   float r;
@@ -68,8 +52,9 @@ int write_Mstar_dens(int i,double U_Mass, double Utime)
       Dens<<P[i].Rho<<endl;
     }
   }
-
-  fprintf(MstarsT, "%e %e \n",header1.time*Utime/year,Mstars*U_Mass/Msun );
+  double Time_in_years=header1.time*Utime/year;
+  double Mstar_in_solar_mass=Mstars*U_Mass/Msun;
+  fprintf(MstarsT, "%e %e \n",Time_in_years,Mstar_in_solar_mass);
 
   Dens.close(); 
   fclose(MstarsT);
@@ -94,24 +79,17 @@ int SFR(){
    lineas >> Nlineas;
                     
 
-
-
-
-   //while(!SFR_out.eof()){
-   // Nlineas++;
-    //cout<<Nlineas<<endl;
-   //}
-   //cout<<Nlineas<<endl;
    NRvector<double> Mstar(Nlineas);
    NRvector<double> Time(Nlineas);
 
 
    int i=0;
    while(i<Nlineas){
-     SFR_out >> Mstar[i] >>Time[i]; 
-     //cout<<Mstar[i]<<" "<<Time[i]<endl;
+     SFR_out >> Time[i] >>Mstar[i]; 
+     if(i==1) cout<<Mstar[i]<<" "<<Time[i]<<endl;
+     if(i==Nlineas-1) cout<<Mstar[i]<<" "<<Time[i]<<endl;
      i++;
-     cout<<"Reading M_Stars_Time line"<<i<<endl;
+     //cout<<"Reading M_Stars_Time line"<<i<<endl;
    }
 
    string NomdSfr="SFR/dSfr";
@@ -123,7 +101,7 @@ int SFR(){
       cout<<"k "<<k<<endl;
       dm=Mstar[k+1]-Mstar[k-1];
       dt=Time[k+1]-Time[k-1];
-      dSfr_out<<Time[k]<" "<<dm/dt<<endl;
+      dSfr_out<<Time[k]<<" "<<dm/dt<<endl;
    }
 
    dSfr_out.close();
