@@ -35,13 +35,13 @@ int data_for_keniccutt_schmidt(int i,int Nin)
 
   
 //  printf("El tiempo en que se capturo este snapshot es %f \n", Time);
-//  printf("El numero total de particulas es %i \n", NumPart);
+  printf("KS.... particle number Npart = %i \n", NumPart);
 //  printf("El numero de particulas de gas es %i \n", header1.npart[0]);
 //  printf("La masa de los BHs es %f \n \n", header1.mass[5]);
 
 
 
-  //////////////// ORDENANDO PARTICULAS POR R CILINDRICO//////////////////////////////////
+  //////////////// OR  DENANDO PARTICULAS POR R CILINDRICO//////////////////////////////////
   cout<<"Ordenando R"<<endl;
   NRvector<double> Rcil(NumPart);
   NRvector<double> auxRcil(NumPart);
@@ -56,14 +56,14 @@ int data_for_keniccutt_schmidt(int i,int Nin)
     Rcil[n-1]=sqrt(P[n].Pos[0]*P[n].Pos[0]+P[n].Pos[1]*P[n].Pos[1]);
   }
   cout<<"Rcil"<<endl;
- 
+  cout<<"indice 0 ="<<P[0].Pos[0]<<" "<<P[0].Mass<<"  indice NumPart ="<<P[NumPart].Type<<endl;
   Indexx indiceR(Rcil);
   indiceR.sort(auxRcil);
  double Rmax=Rcil[indiceR.indx[NumPart-1]];
 
   double   Mgas_Rstar,Mstar_Rstar, Mgas_Rgas,Mstar_Rgas;
   ///////////// MASA ENCERRADA ///////////////////////////////////
-  //cout<<"Masa Encerrada"<<endl;  
+  cout<<"Computing enclosed mass for KS"<<endl;  
 
   //  system("rm snaps_cantidades");
      
@@ -75,8 +75,9 @@ int data_for_keniccutt_schmidt(int i,int Nin)
   long double MassGas=0.0;
   long double MassStar=0.0;
 
-
-  for(long k=0;k<NumPart;k++){
+  long k;
+  for(k=0;k<NumPart;k++){
+  if(k> NumPart-1) cout<<" FOR index k ="<<k<<" maximum value NumPart ="<<NumPart<<endl;
     if(P[indiceR.indx[k]+1].Type==0){
       MassGas=MassGas+P[indiceR.indx[k]+1].Mass;
     }
@@ -108,9 +109,10 @@ int data_for_keniccutt_schmidt(int i,int Nin)
 
   }
 
+  cout<<"End For"<<endl;
   //  double SigmaGas=MassEnc/(2*pi*R90*R90);
-  fprintf(Snaps, "%f %f %f %f %f %f %f %f %f %f %f %f\n",Time, RStar90, Mstar_Rstar, Mgas_Rstar, RGas90, Mstar_Rgas, Mgas_Rgas, Rmax, Mgas_R05, Mstar_R05, Mgas_R08, Mstar_R08);
-
+  fprintf(Snaps, "%e %e %e %e %e %e %e %e %e %e %e %e \n",Time, RStar90, Mstar_Rstar, Mgas_Rstar, RGas90, Mstar_Rgas, Mgas_Rgas, Rmax, Mgas_R05, Mstar_R05, Mgas_R08, Mstar_R08);
+  cout<<"End Print"<<endl;
   /* 
   Dopen.close();
   Mass.close();
@@ -118,7 +120,7 @@ int data_for_keniccutt_schmidt(int i,int Nin)
   Hsmlmin.close();
   */ 
   fclose(Snaps);
-
+cout<<"End Close"<<endl;
 }
 
 
