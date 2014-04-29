@@ -48,7 +48,7 @@ int main(int argc, char **argv)
   //Uvel=1.4272e8;  // en cm/s
   //Umasa=1.154e45; // en gramos
   
-  int j,DN,N;
+  int j,DN,N,BHS_TYPE;
   
   
   cout<<"Ingrese el Numero del Pimer Snapshot "<<endl;
@@ -57,6 +57,9 @@ int main(int argc, char **argv)
   cin >> N;
   cout<<"Ingrese cada cuantos snapshots desea analizar"<<endl;
   cin >> DN; 
+
+  cout<<"Ingrese el TYpe de los BHs"<<endl;
+  cin >> BHS_TYPE; 
   
   cout<<"Ingrese la Unidad de Distancia del Sistema en cm"<<endl;
   cin>>Udist;
@@ -94,7 +97,7 @@ int main(int argc, char **argv)
 	  Mstars_init=Mstars_init+P[k].Mass;
           
 	}
-	if(P[k].Type==5){
+	if(P[k].Type==BHS_TYPE){
 	  ID_BH[p]=Id[k];
 	  p++;
 	}
@@ -104,7 +107,7 @@ int main(int argc, char **argv)
     }
     
     //reordering();  /* call this routine only if your ID's are set properly */
-    BHS(i,j,Udist,Uvel,Umasa,Mgas_init,ID_BH[0],ID_BH[1]);
+    BHS(i,j,Udist,Uvel,Umasa,Mgas_init,ID_BH[0],ID_BH[1],BHS_TYPE);
 
 
 //    write_Mstar_dens(i,Umasa,Utime); // for SFR()
