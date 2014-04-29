@@ -24,7 +24,7 @@ int allocate_memory(void);
 
 using namespace std; 
 
-int BHS(int i, double Udist, double Uvel,double Umasa, double Mgas_init, int ID_BH1, int ID_BH2)
+int BHS(int i, int j, double Udist, double Uvel,double Umasa, double Mgas_init, int ID_BH1, int ID_BH2)
 {	
   
   double  Utime=Udist/Uvel;
@@ -36,6 +36,8 @@ int BHS(int i, double Udist, double Uvel,double Umasa, double Mgas_init, int ID_
     //  double temp_to_u_ratio=mu*((gamma-1)/BOLTZMANN)*PROTOMASS
   double Temp;
   double Uenergy= Umasa * pow(Udist,2) / pow(Utime,2);
+
+  if(i==j) system("mkdir BHs");	
 
   stringstream num;		
   num<<i;
@@ -59,17 +61,28 @@ int BHS(int i, double Udist, double Uvel,double Umasa, double Mgas_init, int ID_
       ofstream PHASE_OUT(NomPHASE.c_str());
   */
   ofstream RhoCrit_OUT(NomRhoCrit.c_str());
+
   FILE *DeltaGas_OUT;
-  DeltaGas_OUT=fopen("DeltaGas_Time","a");
+  DeltaGas_OUT=fopen("Time_DeltaGas","a");
+
+  FILE *EnclosedGas_OUT;
+  EnclosedGas_OUT=fopen("BHs/Time_GasInsideRBH","a");
 
   FILE *time_a_OUT;
-  time_a_OUT=fopen("DistBHs_Time","a");
+  time_a_OUT=fopen("BHs/Time_DistBHs","a");
 
   FILE *MBH1_Time;
-  MBH1_Time=fopen("MBH1_Time","a");
+  MBH1_Time=fopen("BHs/Time_MBH1","a");
 
   FILE *MBH2_Time;
-  MBH2_Time=fopen("MBH2_Time","a");
+  MBH2_Time=fopen("BHs/Time_MBH2","a");
+
+
+  FILE *VelBH1_Time;
+  MBH1_Time=fopen("BHs/Time_MBH1","a");
+
+  FILE *VelBH2_Time;
+  MBH2_Time=fopen("BHs/Time_MBH2","a");
 
 
   double Udens=Umasa/(Udist*Udist*Udist);
@@ -93,26 +106,30 @@ int BHS(int i, double Udist, double Uvel,double Umasa, double Mgas_init, int ID_
   Temp=0.0;
   double Mgas=0.0;
   double MBH=0.0;
-  double Pos_BH1[3], Pos_BH2[3];   
+  double Pos_BH1[3], Pos_BH2[3], Vel_BH1[1], Vel_BH2[3];   
 
   
   // cout<<" Vtot= "<<Vtot<<"   Drho= "<<Drho<<endl;	
-  for(int i=0;i<NumPart;i++){ 
+  for(int i=1;i<=NumPart;i++){ 
     if(P[i].Type==0){
       Temp=(P[i].U*Uenergy/Umasa)*(4.0/(3*Xh+1))*PROTONMASS*((gamma-1)/BOLTZMANN);
       Radio=sqrt(P[i].Pos[0]*P[i].Pos[0]+P[i].Pos[1]*P[i].Pos[1]+P[i].Pos[2]*P[i].Pos[2]);
       RAD_TEMP_TIME_GAS<<Radio<<" "<<Temp<<" "<<header1.time*(Utime/year)<<endl;
       Mgas=Mgas+P[i].Mass;
-    }
-    
+     	
+    }	    
     if(P[i].Type==5 ){  
       MBH=P[i].Mass*Umasa/Msun;
-	
       if(Id[i]==ID_BH1){ 
            fprintf(MBH1_Time,"%e %e \n",header1.time*(Utime/year),MBH);
 	   Pos_BH1[0]=P[i].Pos[0];
-	   Pos_BH1[1]=P[i].Pos[0];
-	   Pos_BH1[2]=P[i].Pos[0];
+	   Pos_BH1[1]=P[i].Pos[1];
+	   Pos_BH1[2]=P[i].Pos[2];
+
+	   Vel_BH1[0]=P[i].Vel[0];
+	   Vel_BH1[1]=P[i].Vel[1];
+	   Vel_BH1[2]=P[i].Vel[2];
+	   fprintf(VelBH1_Time,"%e %e %e %e\n",header1.time*(Utime/year),Vel_BH1[0],Vel_BH1[1],Vel_BH1[2]);
 
 	}
       if(Id[i]==ID_BH2){
@@ -121,23 +138,48 @@ int BHS(int i, double Udist, double Uvel,double Umasa, double Mgas_init, int ID_
 	   Pos_BH2[1]=P[i].Pos[1];
 	   Pos_BH2[2]=P[i].Pos[2];
 
+	   Vel_BH2[0]=P[i].Vel[0];
+	   Vel_BH2[1]=P[i].Vel[1];
+	   Vel_BH2[2]=P[i].Vel[2];
+	   fprintf(VelBH2_Time,"%e %e %e %e\n",header1.time*(Utime/year),Vel_BH2[0],Vel_BH2[1],Vel_BH2[2]);
+
 	}
     }
     
   }
   
   
-  double r2_BHs=(Udist*Udist/(parsec*parsec))*(Pos_BH1[0]-Pos_BH2[0])*(Pos_BH1[0]-Pos_BH2[0])+(Pos_BH1[1]-Pos_BH2[1])*(Pos_BH1[0]-Pos_BH2[1])+(Pos_BH1[0]-Pos_BH2[2])*(Pos_BH1[0]-Pos_BH2[2]);
+  double r2_BHs=(Udist*Udist/(parsec*parsec))*(Pos_BH1[0]-Pos_BH2[0])*(Pos_BH1[0]-Pos_BH2[0])+(Pos_BH1[1]-Pos_BH2[1])*(Pos_BH1[1]-Pos_BH2[1])+(Pos_BH1[2]-Pos_BH2[2])*(Pos_BH1[2]-Pos_BH2[2]);
   fprintf(time_a_OUT,"%e %e \n",header1.time*(Utime/year),sqrt(r2_BHs)); // distancia en parsecs
 
   
   double   DeltaGas=Mgas/Mgas_init;
   fprintf(DeltaGas_OUT,"%e %e \n",header1.time*(Utime/year),DeltaGas);
+
+
+///  MASS INSIDE BLACK HOLES ORBIT//////////////////
+  Mgas=0.0;
+  for(int i=1;i<=NumPart;i++){ 
+    if(P[i].Type==0){
+      Radio=sqrt(P[i].Pos[0]*P[i].Pos[0]+P[i].Pos[1]*P[i].Pos[1]+P[i].Pos[2]*P[i].Pos[2]);
+      if(Radio<r2_BHs) Mgas=Mgas+P[i].Mass;	 
+     }
+   }
   
+  fprintf(EnclosedGas_OUT,"%e %e \n",header1.time*(Utime/year),Mgas);
   
+
+////////////////////////////////////////////////
+
   RAD_TEMP_TIME_GAS.close();
   fclose(DeltaGas_OUT);
   fclose(time_a_OUT);
+
+  fclose(EnclosedGas_OUT);
+  
+  fclose(VelBH1_Time);	
+  fclose(VelBH2_Time);	
+
   fclose(MBH1_Time);
   fclose(MBH2_Time);
   
