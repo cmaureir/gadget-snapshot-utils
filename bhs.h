@@ -24,7 +24,7 @@ int allocate_memory(void);
 
 using namespace std; 
 
-int BHS(int i, int j, double Udist, double Uvel,double Umasa, double Mgas_init, int ID_BH1, int ID_BH2)
+int BHS(int i, int j, double Udist, double Uvel,double Umasa, double Mgas_init, int ID_BH1, int ID_BH2, int BHS_TYPE)
 {	
   
   double  Utime=Udist/Uvel;
@@ -112,13 +112,16 @@ int BHS(int i, int j, double Udist, double Uvel,double Umasa, double Mgas_init, 
   // cout<<" Vtot= "<<Vtot<<"   Drho= "<<Drho<<endl;	
   for(int i=1;i<=NumPart;i++){ 
     if(P[i].Type==0){
-      Temp=(P[i].U*Uenergy/Umasa)*(4.0/(3*Xh+1))*PROTONMASS*((gamma-1)/BOLTZMANN);
+	cout<<"Type 0 index "<<i<<endl; 
+     Temp=(P[i].U*Uenergy/Umasa)*(4.0/(3*Xh+1))*PROTONMASS*((gamma-1)/BOLTZMANN);
       Radio=sqrt(P[i].Pos[0]*P[i].Pos[0]+P[i].Pos[1]*P[i].Pos[1]+P[i].Pos[2]*P[i].Pos[2]);
       RAD_TEMP_TIME_GAS<<Radio<<" "<<Temp<<" "<<header1.time*(Utime/year)<<endl;
       Mgas=Mgas+P[i].Mass;
      	
     }	    
-    if(P[i].Type==5 ){  
+    if(P[i].Type==BHS_TYPE ){  
+	cout<<"Type BHS index "<<i<<endl; 
+
       MBH=P[i].Mass*Umasa/Msun;
       if(Id[i]==ID_BH1){ 
            fprintf(MBH1_Time,"%e %e \n",header1.time*(Utime/year),MBH);
@@ -159,10 +162,12 @@ int BHS(int i, int j, double Udist, double Uvel,double Umasa, double Mgas_init, 
 
 ///  MASS INSIDE BLACK HOLES ORBIT//////////////////
   Mgas=0.0;
-  for(int i=1;i<=NumPart;i++){ 
-    if(P[i].Type==0){
-      Radio=sqrt(P[i].Pos[0]*P[i].Pos[0]+P[i].Pos[1]*P[i].Pos[1]+P[i].Pos[2]*P[i].Pos[2]);
-      if(Radio<r2_BHs) Mgas=Mgas+P[i].Mass;	 
+	cout<<"Computin Mass Inside Black Holes... "<<endl; 
+
+  for(int k=1;k<=NumPart;k++){ 
+    if(P[k].Type==0){
+      Radio=sqrt(P[k].Pos[0]*P[k].Pos[0]+P[k].Pos[1]*P[k].Pos[1]+P[k].Pos[2]*P[k].Pos[2]);
+      if(Radio<r2_BHs) Mgas=Mgas+P[k].Mass;	 
      }
    }
   
