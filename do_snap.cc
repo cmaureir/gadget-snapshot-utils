@@ -7,7 +7,7 @@
 #include <sstream>
 #include <math.h>
 
-#include "laod_snapshot.h"
+#include "load_snapshot.h"
 #include "bhs.h"
 
 #include "nr3.h"

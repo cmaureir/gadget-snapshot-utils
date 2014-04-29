@@ -86,8 +86,8 @@ int SFR(){
    int i=0;
    while(i<Nlineas){
      SFR_out >> Time[i] >>Mstar[i]; 
-     if(i==1) cout<<Mstar[i]<<" "<<Time[i]<<endl;
-     if(i==Nlineas-1) cout<<Mstar[i]<<" "<<Time[i]<<endl;
+     if(i==1) cout<<Time[i]<<" "<<Mstar[i]<<endl;
+     if(i==Nlineas-1) cout<<Time[i]<<" "<<Mstar[i]<<endl;
      i++;
      //cout<<"Reading M_Stars_Time line"<<i<<endl;
    }

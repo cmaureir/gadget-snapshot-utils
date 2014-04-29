@@ -24,16 +24,19 @@ int allocate_memory(void);
 
 using namespace std; 
 
-int data_for_keniccutt_schmidt(int i, int DDENS)
-{       
+int data_for_keniccutt_schmidt(int i,int Nin)
+{  
+
+
+   if(i==Nin) system("mkdir KS");	     
   //cout<<"Generando Archivos de Salida...."<<endl;
   stringstream num;
   num<<i;
 
   
-  printf("El tiempo en que se capturo este snapshot es %f \n", Time);
-  printf("El numero total de particulas es %i \n", NumPart);
-  printf("El numero de particulas de gas es %i \n", header1.npart[0]);
+//  printf("El tiempo en que se capturo este snapshot es %f \n", Time);
+//  printf("El numero total de particulas es %i \n", NumPart);
+//  printf("El numero de particulas de gas es %i \n", header1.npart[0]);
 //  printf("La masa de los BHs es %f \n \n", header1.mass[5]);
 
 
@@ -65,7 +68,7 @@ int data_for_keniccutt_schmidt(int i, int DDENS)
   //  system("rm snaps_cantidades");
      
   FILE *Snaps;
-  Snaps=fopen("snaps_cantidades","a");
+  Snaps=fopen("KS/snaps_cantidades","a");
 
 
   double R_Medi, RStar90, R05, R, RGas90,Mgas_R05, Mstar_R05, Mgas_R08, Mstar_R08;
@@ -125,11 +128,11 @@ void MeanFilter(){
   system("awk '{print $1}' wcSFR > lineas");
   system("rm wcSFR");
 
-  ifstream fileSFR("sfr.txt", ios::in);
+  ifstream fileSFR("KS/sfr.txt", ios::in);
   ifstream lineas("lineas", ios::in);
    
   FILE *SFR_MEAN;
-  SFR_MEAN=fopen("sfr_mean","a");
+  SFR_MEAN=fopen("KS/sfr_mean","a");
 
   int L;
 
@@ -191,36 +194,34 @@ void MeanFilter(){
 
 void Kennicut_Schmidt(double Udist,double Uvel,double Umasa, int Nfin, int Nin, int paso){
 
-   
-
-  system("rm t_dt.txt");
+  system("rm KS/t_dt.txt");
   //  system("rm snaps_cantidades");
 
   MeanFilter();
   int L=(Nfin-Nin)/paso;
    
   FILE *Kennicutt;
-  Kennicutt=fopen("Kennicutt_Schmidt","a");
+  Kennicutt=fopen("KS/Kennicutt_Schmidt","a");
 
 
   FILE *KennU;
-  KennU=fopen("Kennicutt_Schmidt_U","a");
+  KennU=fopen("KS/Kennicutt_Schmidt_U","a");
   FILE *KennU_Cal;
-  KennU_Cal=fopen("Kennicutt_Schmidt_U_Cal","a");
+  KennU_Cal=fopen("KS/Kennicutt_Schmidt_U_Cal","a");
 
   FILE *Kennicutt_medio;
-  Kennicutt_medio=fopen("Kennicutt_Schmidt_medio","a");
+  Kennicutt_medio=fopen("KS/Kennicutt_Schmidt_medio","a");
   FILE *Kennicutt_medio_U_Cal;
-  Kennicutt_medio_U_Cal=fopen("Kennicutt_Schmidt_medio_U_Cal","a");
+  Kennicutt_medio_U_Cal=fopen("KS/Kennicutt_Schmidt_medio_U_Cal","a");
    
 system("sed -n -e '/Step/p' timings.txt > prueba");
   system("awk '{print $4, $6}' prueba > prueba2"); //  T, dT
-  system("sed -e '1,2d'  prueba2 > t_dt.txt");
+  system("sed -e '1,2d'  prueba2 > KS/t_dt.txt");
   system("rm prueba prueba2");
 
-  ifstream fileTime("t_dt.txt", ios::in);
-  ifstream file("snaps_cantidades", ios::in);
-  ifstream fileSFR("sfr_mean", ios::in);
+  ifstream fileTime("KS/t_dt.txt", ios::in);
+  ifstream file("sKS/naps_cantidades", ios::in);
+  ifstream fileSFR("KS/sfr_mean", ios::in);
 
 
   NRvector<double> SFR(L);
