@@ -79,10 +79,10 @@ int BHS(int i, int j, double Udist, double Uvel,double Umasa, double Mgas_init, 
 
 
   FILE *VelBH1_Time;
-  MBH1_Time=fopen("BHs/Time_MBH1","a");
+  VelBH1_Time=fopen("BHs/Time_MBH1","a");
 
   FILE *VelBH2_Time;
-  MBH2_Time=fopen("BHs/Time_MBH2","a");
+  VelBH2_Time=fopen("BHs/Time_MBH2","a");
 
 
   double Udens=Umasa/(Udist*Udist*Udist);
@@ -111,8 +111,10 @@ int BHS(int i, int j, double Udist, double Uvel,double Umasa, double Mgas_init, 
   
   // cout<<" Vtot= "<<Vtot<<"   Drho= "<<Drho<<endl;	
   for(int i=1;i<=NumPart;i++){ 
+//    cout<<"NumPat "<<NumPart<<endl; 
     if(P[i].Type==0){
-	cout<<"Type 0 index "<<i<<endl; 
+//	cout<<"Type 0 index --> "<<i<<"   NumPart-index --> "<<NumPart-i<<endl; 
+
      Temp=(P[i].U*Uenergy/Umasa)*(4.0/(3*Xh+1))*PROTONMASS*((gamma-1)/BOLTZMANN);
       Radio=sqrt(P[i].Pos[0]*P[i].Pos[0]+P[i].Pos[1]*P[i].Pos[1]+P[i].Pos[2]*P[i].Pos[2]);
       RAD_TEMP_TIME_GAS<<Radio<<" "<<Temp<<" "<<header1.time*(Utime/year)<<endl;
@@ -120,31 +122,51 @@ int BHS(int i, int j, double Udist, double Uvel,double Umasa, double Mgas_init, 
      	
     }	    
     if(P[i].Type==BHS_TYPE ){  
-	cout<<"Type BHS index "<<i<<endl; 
+       cout<<"NumPat "<<NumPart<<endl; 
+
+	cout<<"Type BHs index --> "<<i<<"    NumPart-index --> "<<NumPart-i<<endl; 
 
       MBH=P[i].Mass*Umasa/Msun;
       if(Id[i]==ID_BH1){ 
+	cout<<"Firts BH"<<endl;
            fprintf(MBH1_Time,"%e %e \n",header1.time*(Utime/year),MBH);
+	cout<<"end of print Mass Firts BH"<<endl;
+
 	   Pos_BH1[0]=P[i].Pos[0];
 	   Pos_BH1[1]=P[i].Pos[1];
 	   Pos_BH1[2]=P[i].Pos[2];
+	cout<<"end of reading positions Firts BH"<<endl;
 
 	   Vel_BH1[0]=P[i].Vel[0];
 	   Vel_BH1[1]=P[i].Vel[1];
 	   Vel_BH1[2]=P[i].Vel[2];
-	   fprintf(VelBH1_Time,"%e %e %e %e\n",header1.time*(Utime/year),Vel_BH1[0],Vel_BH1[1],Vel_BH1[2]);
+	cout<<"end of reading velocity Firts BH"<<endl;
+
+	   fprintf(VelBH1_Time,"%e %e %e %e \n",header1.time*(Utime/year),Vel_BH1[0],Vel_BH1[1],Vel_BH1[2]);
+
+	cout<<"end of writing Velocity frst BH"<<endl;
 
 	}
       if(Id[i]==ID_BH2){
+	cout<<"Second BH"<<endl;
+
 	   fprintf(MBH2_Time,"%e %e \n",header1.time*(Utime/year),MBH);
+	cout<<"end of print Mass Second BH"<<endl;
+
 	   Pos_BH2[0]=P[i].Pos[0];
 	   Pos_BH2[1]=P[i].Pos[1];
 	   Pos_BH2[2]=P[i].Pos[2];
+	cout<<"end of reading position Second BH"<<endl;
+
 
 	   Vel_BH2[0]=P[i].Vel[0];
 	   Vel_BH2[1]=P[i].Vel[1];
 	   Vel_BH2[2]=P[i].Vel[2];
-	   fprintf(VelBH2_Time,"%e %e %e %e\n",header1.time*(Utime/year),Vel_BH2[0],Vel_BH2[1],Vel_BH2[2]);
+
+	cout<<"end of reading velocity Second BH"<<endl;
+
+	   fprintf(VelBH2_Time,"%e %e %e %e \n",header1.time*(Utime/year),Vel_BH2[0],Vel_BH2[1],Vel_BH2[2]);
+	cout<<"end of writing Velocity second BH"<<endl;
 
 	}
     }
@@ -165,7 +187,7 @@ int BHS(int i, int j, double Udist, double Uvel,double Umasa, double Mgas_init, 
 	cout<<"Computin Mass Inside Black Holes... "<<endl; 
 
   for(int k=1;k<=NumPart;k++){ 
-    if(P[k].Type==0){
+    if(P[k].Type=!BHS_TYPE){
       Radio=sqrt(P[k].Pos[0]*P[k].Pos[0]+P[k].Pos[1]*P[k].Pos[1]+P[k].Pos[2]*P[k].Pos[2]);
       if(Radio<r2_BHs) Mgas=Mgas+P[k].Mass;	 
      }
