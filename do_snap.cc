@@ -104,17 +104,17 @@ int main(int argc, char **argv)
     }
     
     //reordering();  /* call this routine only if your ID's are set properly */
-    //BHS(i,Udist,Uvel,Umasa,Mgas_init,ID_BH[0],ID_BH[1]);
+    BHS(i,j,Udist,Uvel,Umasa,Mgas_init,ID_BH[0],ID_BH[1]);
 
 
-    write_Mstar_dens(i,Umasa,Utime); // for SFR()
+//    write_Mstar_dens(i,Umasa,Utime); // for SFR()
 
-     data_for_keniccutt_schmidt(i,N); // for Kennicut_Schmidt()
+//     data_for_keniccutt_schmidt(i,j); // for Kennicut_Schmidt()
 //     enclosed_gas_mass(i,Utime, Udist, Umasa); // this routine has a break !! 
 
   }
-  SFR();
-  Kennicut_Schmidt(Udist,Uvel,Umasa,N,j,DN);
+//  SFR();
+//  Kennicut_Schmidt(Udist,Uvel,Umasa,N,j,DN);
 }
 
 
