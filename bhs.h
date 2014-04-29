@@ -79,10 +79,10 @@ int BHS(int i, int j, double Udist, double Uvel,double Umasa, double Mgas_init, 
 
 
   FILE *VelBH1_Time;
-  VelBH1_Time=fopen("BHs/Time_MBH1","a");
+  VelBH1_Time=fopen("BHs/Time_VelBH1","a");
 
   FILE *VelBH2_Time;
-  VelBH2_Time=fopen("BHs/Time_MBH2","a");
+  VelBH2_Time=fopen("BHs/Time_VelBH2","a");
 
 
   double Udens=Umasa/(Udist*Udist*Udist);
