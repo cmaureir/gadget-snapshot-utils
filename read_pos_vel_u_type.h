@@ -52,22 +52,22 @@ int read_pos_vel_u(int i, int j)
 
   for(int i=1;i<=NumPart;i++){ 
     if(P[i].Type==0){
-	Out_Type0<<P[i].Pos[0]<<" "<<P[i].Pos[1]<<" "<<P[i].Pos[2]<<P[i].Vel[0]<<" "<<P[i].Vel[1]<<" "<<P[i].Vel[2]<<" "<<P[i].Mass<<" "<<P[i].U<<endl;
+	Out_Type0<<P[i].Pos[0]<<" "<<P[i].Pos[1]<<" "<<P[i].Pos[2]<<" "<<P[i].Vel[0]<<" "<<P[i].Vel[1]<<" "<<P[i].Vel[2]<<" "<<P[i].Mass<<" "<<P[i].U<<endl;
     }
     if(P[i].Type==1){
-	Out_Type1<<P[i].Pos[0]<<" "<<P[i].Pos[1]<<" "<<P[i].Pos[2]<<P[i].Vel[0]<<" "<<P[i].Vel[1]<<" "<<P[i].Vel[2]<<" "<<P[i].Mass<<" "<<P[i].U<<endl;
+	Out_Type1<<P[i].Pos[0]<<" "<<P[i].Pos[1]<<" "<<P[i].Pos[2]<<" "<<P[i].Vel[0]<<" "<<P[i].Vel[1]<<" "<<P[i].Vel[2]<<" "<<P[i].Mass<<" "<<P[i].U<<endl;
     }
     if(P[i].Type==2){
-	Out_Type2<<P[i].Pos[0]<<" "<<P[i].Pos[1]<<" "<<P[i].Pos[2]<<P[i].Vel[0]<<" "<<P[i].Vel[1]<<" "<<P[i].Vel[2]<<" "<<P[i].Mass<<" "<<P[i].U<<endl;
+	Out_Type2<<P[i].Pos[0]<<" "<<P[i].Pos[1]<<" "<<P[i].Pos[2]<<" "<<P[i].Vel[0]<<" "<<P[i].Vel[1]<<" "<<P[i].Vel[2]<<" "<<P[i].Mass<<" "<<P[i].U<<endl;
     }
     if(P[i].Type==3){
-	Out_Type3<<P[i].Pos[0]<<" "<<P[i].Pos[1]<<" "<<P[i].Pos[2]<<P[i].Vel[0]<<" "<<P[i].Vel[1]<<" "<<P[i].Vel[2]<<" "<<P[i].Mass<<" "<<P[i].U<<endl;
+	Out_Type3<<P[i].Pos[0]<<" "<<P[i].Pos[1]<<" "<<P[i].Pos[2]<<" "<<P[i].Vel[0]<<" "<<P[i].Vel[1]<<" "<<P[i].Vel[2]<<" "<<P[i].Mass<<" "<<P[i].U<<endl;
     }
     if(P[i].Type==4){
-	Out_Type4<<P[i].Pos[0]<<" "<<P[i].Pos[1]<<" "<<P[i].Pos[2]<<P[i].Vel[0]<<" "<<P[i].Vel[1]<<" "<<P[i].Vel[2]<<" "<<P[i].Mass<<" "<<P[i].U<<endl;
+	Out_Type4<<P[i].Pos[0]<<" "<<P[i].Pos[1]<<" "<<P[i].Pos[2]<<" "<<P[i].Vel[0]<<" "<<P[i].Vel[1]<<" "<<P[i].Vel[2]<<" "<<P[i].Mass<<" "<<P[i].U<<endl;
     }
     if(P[i].Type==5){
-	Out_Type5<<P[i].Pos[0]<<" "<<P[i].Pos[1]<<" "<<P[i].Pos[2]<<P[i].Vel[0]<<" "<<P[i].Vel[1]<<" "<<P[i].Vel[2]<<" "<<P[i].Mass<<" "<<P[i].U<<endl;
+	Out_Type5<<P[i].Pos[0]<<" "<<P[i].Pos[1]<<" "<<P[i].Pos[2]<<" "<<P[i].Vel[0]<<" "<<P[i].Vel[1]<<" "<<P[i].Vel[2]<<" "<<P[i].Mass<<" "<<P[i].U<<endl;
     }
 
   }
