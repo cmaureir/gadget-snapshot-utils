@@ -193,17 +193,18 @@ int BHS(int i, int j, double Udist, double Uvel,double Umasa, double Mgas_init, 
 
 ///  MASS INSIDE BLACK HOLES ORBIT//////////////////
   double Menclosed=0.0;
-	cout<<"Computin Mass Inside Black Holes... "<<endl; 
-  double Radio_parsec=0.0;
-  Radio=0.0;	
+	cout<<"Computing Mass Inside Black Holes... "<<endl; 
+  double Radio2_parsec=0.0;
+  double Radio2=0.0;	
   for(int k=1;k<=NumPart;k++){ 
     if(P[k].Type!=BHS_TYPE){
-      Radio=sqrt(P[k].Pos[0]*P[k].Pos[0]+P[k].Pos[1]*P[k].Pos[1]+P[k].Pos[2]*P[k].Pos[2]);
-      Radio_parsec=(Udist/(parsec))*Radio;
-      if(Radio<=r2_BHs){
+//      	 cout<<"Particle is not a BH ..."<<endl;		
+      Radio2=P[k].Pos[0]*P[k].Pos[0]+P[k].Pos[1]*P[k].Pos[1]+P[k].Pos[2]*P[k].Pos[2];
+      Radio2_parsec=(Udist/(parsec))*Radio2;
+      if(Radio2_parsec<=r2_BHs){
 	 Menclosed=Menclosed+P[k].Mass;	
-	 cout<<"Particle Enclosed by BHs orbit"<<endl;
-	 cout<<"Particle Mass = "<<P[k].Mass<<"   Enclosed Mass ="<<Menclosed<<endl;
+//	 cout<<"Particle Enclosed by BHs orbit"<<endl;
+//	 cout<<"Particle Mass = "<<P[k].Mass<<"   Enclosed Mass ="<<Menclosed<<endl;
 	
 	} 
      }
