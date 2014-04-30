@@ -194,10 +194,12 @@ int BHS(int i, int j, double Udist, double Uvel,double Umasa, double Mgas_init, 
 ///  MASS INSIDE BLACK HOLES ORBIT//////////////////
   Mgas=0.0;
 	cout<<"Computin Mass Inside Black Holes... "<<endl; 
-
+  double Radio_parsec=0.0;
+  Radio=0.0;	
   for(int k=1;k<=NumPart;k++){ 
     if(P[k].Type=!BHS_TYPE){
       Radio=sqrt(P[k].Pos[0]*P[k].Pos[0]+P[k].Pos[1]*P[k].Pos[1]+P[k].Pos[2]*P[k].Pos[2]);
+      Radio_parsec=(Udist/(parsec))*Radio;
       if(Radio<r2_BHs) Mgas=Mgas+P[k].Mass;	 
      }
    }
