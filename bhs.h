@@ -84,6 +84,12 @@ int BHS(int i, int j, double Udist, double Uvel,double Umasa, double Mgas_init, 
   FILE *VelBH2_Time;
   VelBH2_Time=fopen("BHs/Time_VelBH2","a");
 
+  FILE *PosBH1_Time;
+  PosBH1_Time=fopen("BHs/Time_PosBH1","a");
+
+  FILE *PosBH2_Time;
+  PosBH2_Time=fopen("BHs/Time_PosBH2","a");
+
 
   double Udens=Umasa/(Udist*Udist*Udist);
   double MasaU, DensU, RgasU, RstarU, MstarU;
@@ -143,8 +149,9 @@ int BHS(int i, int j, double Udist, double Uvel,double Umasa, double Mgas_init, 
 	cout<<"end of reading velocity Firts BH"<<endl;
 
 	   fprintf(VelBH1_Time,"%e %e %e %e \n",header1.time*(Utime/year),Vel_BH1[0],Vel_BH1[1],Vel_BH1[2]);
+	   fprintf(PosBH1_Time,"%e %e %e %e \n",header1.time*(Utime/year),Pos_BH1[0],Pos_BH1[1],Pos_BH1[2]);
 
-	cout<<"end of writing Velocity frst BH"<<endl;
+	cout<<"end of writing velocity and positions first BH"<<endl;
 
 	}
       if(Id[i]==ID_BH2){
@@ -166,7 +173,9 @@ int BHS(int i, int j, double Udist, double Uvel,double Umasa, double Mgas_init, 
 	cout<<"end of reading velocity Second BH"<<endl;
 
 	   fprintf(VelBH2_Time,"%e %e %e %e \n",header1.time*(Utime/year),Vel_BH2[0],Vel_BH2[1],Vel_BH2[2]);
-	cout<<"end of writing Velocity second BH"<<endl;
+	   fprintf(PosBH2_Time,"%e %e %e %e \n",header1.time*(Utime/year),Pos_BH2[0],Pos_BH2[1],Pos_BH2[2]);
+
+	cout<<"end of writing velocity and positions second BH"<<endl;
 
 	}
     }
