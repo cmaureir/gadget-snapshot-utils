@@ -13,6 +13,7 @@
 #include "nr3.h"
 #include "sort.h"
 
+#include "read_pos_vel_u_type.h"
 #include "enclosed_gas_mass.h" 
 #include "sfr.h"
 #include "kennicutt_schmidt.h"
@@ -107,7 +108,11 @@ int main(int argc, char **argv)
     }
     
     //reordering();  /* call this routine only if your ID's are set properly */
-    BHS(i,j,Udist,Uvel,Umasa,Mgas_init,ID_BH[0],ID_BH[1],BHS_TYPE);
+
+
+     read_pos_vel_u(i,j);
+
+//    BHS(i,j,Udist,Uvel,Umasa,Mgas_init,ID_BH[0],ID_BH[1],BHS_TYPE); //
 
 
 //    write_Mstar_dens(i,Umasa,Utime); // for SFR()
