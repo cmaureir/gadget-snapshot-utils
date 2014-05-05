@@ -126,15 +126,15 @@ cout<<"End Close"<<endl;
 
 void MeanFilter(){
 
-  system("wc sfr.txt > wcSFR");
+  system("wc SFR/dSfr.txt > wcSFR");
   system("awk '{print $1}' wcSFR > lineas");
   system("rm wcSFR");
 
-  ifstream fileSFR("KS/sfr.txt", ios::in);
+  ifstream fileSFR("SFR/dSfr.txt", ios::in);
   ifstream lineas("lineas", ios::in);
    
   FILE *SFR_MEAN;
-  SFR_MEAN=fopen("KS/sfr_mean","a");
+  SFR_MEAN=fopen("KS/dSfr_mean","a");
 
   int L;
 
@@ -222,7 +222,7 @@ system("sed -n -e '/Step/p' timings.txt > prueba");
   system("rm prueba prueba2");
 
   ifstream fileTime("KS/t_dt.txt", ios::in);
-  ifstream file("sKS/naps_cantidades", ios::in);
+  ifstream file("KS/naps_cantidades", ios::in);
   ifstream fileSFR("KS/sfr_mean", ios::in);
 
 
@@ -340,7 +340,7 @@ for(int i=0;i<L;i++){
 
     // SFRU=Mstar_medio[n]*Umasa/1.91891e33;              // Masa de Estrellas formadas en T_medio[n] en unidad de Msolares    
     
-  RstarU=Rstar_medio[n]*Udist/3.08567758e18;           // En unidades de Parsec    
+    RstarU=Rstar_medio[n]*Udist/3.08567758e18;           // En unidades de Parsec    
     RgasU=Rgas_medio[n]*Udist/3.08567758e18;           // En unidades de Parsec    
 
     RmaxU=Rmax_medio[n]*Udist/3.08567758e18;           // En unidades de Parsec    
