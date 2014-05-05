@@ -56,7 +56,9 @@ int BHS(int i, int j, double Udist, double Uvel,double Umasa, double Mgas_init, 
   ofstream DENS_GAS(NomDENSGAS.c_str());
   ofstream DENS_STARS(NomDENSSTAR.c_str());
 	*/
+
   ofstream RAD_TEMP_TIME_GAS(NomTEMPGAS.c_str());
+
 /*      ofstream HIST_OUT(NomHIST.c_str());
       ofstream PHASE_OUT(NomPHASE.c_str());
   */
@@ -230,3 +232,68 @@ int BHS(int i, int j, double Udist, double Uvel,double Umasa, double Mgas_init, 
   
 }
 
+
+////// COPUTE THE RATIO BETWEEN THE MASS ACREATION RATE AND THE EDDINGTON MASS ACREATION RATE LIMIT //////////////////////// 
+
+void Medd_frac(){
+
+ ifstream MBH1_MASS("BHs/Time_MBH1");
+ ifstream MBH2_MASS("BHs/Time_MBH2");
+
+ system("wc BHs/Time_MBH1 > BHs/wcMBH1");
+ system("awk '{print $1}' BHs/wcMBH1 > BHs/lineas");
+ system("rm BHs/wcMBH1");
+    
+ ifstream lines("BHs/lineas", ios::in);
+ int Nline=0;
+ lines >> Nline;
+ system("rm BHs	/lineas");
+
+
+  double MassBH1[Nline];	
+  double MassBH2[Nline];	
+  double Time[Nline];
+
+  int i=0;
+  while(i<Nline){
+     MBH1_MASS >> Time[i] >> MassBH1[i]; 
+     MBH2_MASS >> Time[i] >> MassBH2[i]; 
+     i++;
+   }
+
+
+ string NomBH1="BHs/Time_MeddFractionBH1";	
+ ofstream TIME_MEDD_FRAC_MBH1(NomBH1.c_str());
+
+ string NomBH2="BHs/Time_MeddFractionBH2";	
+ ofstream TIME_MEDD_FRAC_MBH2(NomBH2.c_str());
+
+   double dm1, dm2;
+   double dt, Mdot1,Mdot2,Medd1,Medd2;
+   Mdot1=Mdot2=Medd1=Medd2=dm1=dm2=dt=0.0;
+
+   double Medd_constant=4.3134e-12;
+
+   for(int k=0;k<Nline-1;k++){
+      dm1=MassBH1[k+1]-MassBH1[k];
+      dm2=MassBH2[k+1]-MassBH2[k];
+      dt=Time[k+1]-Time[k];
+        
+      Medd1=MassBH1[k]*Medd_constant; 
+      Medd2=MassBH2[k]*Medd_constant; 
+
+      Mdot1=dm1/dt;        	
+      Mdot2=dm2/dt;        	
+          
+      TIME_MEDD_FRAC_MBH1<<(Time[k+1]+Time[k])/2.0<<" "<<Mdot1/Medd1<<endl;
+      TIME_MEDD_FRAC_MBH2<<(Time[k+1]+Time[k])/2.0<<" "<<Mdot2/Medd2<<endl;
+   }
+
+   TIME_MEDD_FRAC_MBH1.close();
+   TIME_MEDD_FRAC_MBH2.close();
+   MBH1_MASS.close();
+   MBH2_MASS.close();
+   lines.close();
+
+
+}
