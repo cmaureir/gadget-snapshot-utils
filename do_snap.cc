@@ -25,6 +25,9 @@
 #define Msun 1.989e33
 #define parsec 3.08567758e18
 #define year 31556926 
+#define THOMPSON     6.65245e-25 
+#define C           2.9979e10
+
 
 int allocate_memory(void);
 
@@ -94,10 +97,9 @@ int main(int argc, char **argv)
 	if(P[k].Type==0){
 	  Mgas_init=Mgas_init+P[k].Mass;
 	}
-	if(P[k].Type==2 || P[k].Type==4){
-	  Mstars_init=Mstars_init+P[k].Mass;
-          
-	}
+//	if(P[k].Type==2 || P[k].Type==4){
+//	  Mstars_init=Mstars_init+P[k].Mass;
+//	}
 	if(P[k].Type==BHS_TYPE){
 	  ID_BH[p]=Id[k];
 	  p++;
@@ -110,9 +112,9 @@ int main(int argc, char **argv)
     //reordering();  /* call this routine only if your ID's are set properly */
 
 
-     read_pos_vel_u(i,j);
+//     read_pos_vel_u(i,j);
 
-//    BHS(i,j,Udist,Uvel,Umasa,Mgas_init,ID_BH[0],ID_BH[1],BHS_TYPE); //
+     BHS(i,j,Udist,Uvel,Umasa,Mgas_init,ID_BH[0],ID_BH[1],BHS_TYPE); // needed for Medd_frac()
 
 
 //    write_Mstar_dens(i,Umasa,Utime); // for SFR()
@@ -121,6 +123,8 @@ int main(int argc, char **argv)
 //     enclosed_gas_mass(i,Utime, Udist, Umasa); // this routine has a break !! 
 
   }
+
+    Medd_frac();
 //  SFR();
 //  Kennicut_Schmidt(Udist,Uvel,Umasa,N,j,DN);
 }
