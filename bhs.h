@@ -18,6 +18,8 @@
 #define Msun 1.989e33
 #define parsec 3.08567758e18
 #define year 31556926 
+#define THOMPSON     6.65245e-25
+#define C           2.9979e10
 
 int allocate_memory(void);
 
@@ -262,25 +264,29 @@ void Medd_frac(){
    }
 
 
- string NomBH1="BHs/Time_MeddFractionBH1";	
- ofstream TIME_MEDD_FRAC_MBH1(NomBH1.c_str());
+  string NomBH1="BHs/Time_MeddFractionBH1";	
+  ofstream TIME_MEDD_FRAC_MBH1(NomBH1.c_str());
 
- string NomBH2="BHs/Time_MeddFractionBH2";	
- ofstream TIME_MEDD_FRAC_MBH2(NomBH2.c_str());
+  string NomBH2="BHs/Time_MeddFractionBH2";	
+  ofstream TIME_MEDD_FRAC_MBH2(NomBH2.c_str());
 
-   double dm1, dm2;
-   double dt, Mdot1,Mdot2,Medd1,Medd2;
-   Mdot1=Mdot2=Medd1=Medd2=dm1=dm2=dt=0.0;
+  double dm1, dm2;
+  double dt, Mdot1,Mdot2,Medd1,Medd2;
+  Mdot1=Mdot2=Medd1=Medd2=dm1=dm2=dt=0.0;
 
-   double Medd_constant=4.3134e-12;
+  double Medd_constant=(4 * pi* GRAVITY * C * PROTONMASS / (0.1 * C * C * THOMPSON)) ;//=4.3134e-12;
 
    for(int k=0;k<Nline-1;k++){
       dm1=MassBH1[k+1]-MassBH1[k];
       dm2=MassBH2[k+1]-MassBH2[k];
       dt=Time[k+1]-Time[k];
         
-      Medd1=MassBH1[k]*Medd_constant; 
-      Medd2=MassBH2[k]*Medd_constant; 
+      Medd1=(MassBH1[k]*Msun)*Medd_constant; // in cgs (gr/s)
+      Medd1=Medd1*(year/Msun);               // in Msun/year
+
+      Medd2=(MassBH2[k]*Msun)*Medd_constant; // in cgs (gr/s)
+      Medd2=Medd2*(year/Msun);               // in Msun/year
+
 
       Mdot1=dm1/dt;        	
       Mdot2=dm2/dt;        	
