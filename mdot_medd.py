@@ -2,6 +2,7 @@
 
 from reader.gsr import *
 from include.option_parser import *
+from include.plot_data import *
 
 if __name__ == '__main__':
     op = OptionParser().get_options()
@@ -26,14 +27,13 @@ if __name__ == '__main__':
     gamma = 5.0/3.0
     Uenergy = Umasa * (Udist**2) / (Utime**2)
 
-
     number_of_files = len(op.fname)
     times = np.zeros(number_of_files)
     bh_mass1 = np.zeros(number_of_files)
     bh_mass2 = np.zeros(number_of_files)
 
     for index, f in enumerate(op.fname):
-        print("Processing snapshot", f,"...")
+        print("-> Processing snapshot", f,"...")
         snap = Snapshot(f)
         Header = snap.get_header()
         times[index] = Header['Time']
