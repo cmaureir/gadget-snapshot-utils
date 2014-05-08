@@ -34,10 +34,10 @@ int BHS(int i, int j, double Udist, double Uvel,double Umasa, double Mgas_init, 
   double  Xh= 0.76;  ///* mass fraction of hydrogen */
   double mu= 4.0/(3*Xh+1) * PROTONMASS; // asumiendo gas neutral
   // por particula  mu= 4.0/(3*Xh+1+4*Xh*P[i].Ne) * PROTONMASS;
-  double gamma=5.0/3.0;
+//  double gamma=5.0/3.0;
     //  double temp_to_u_ratio=mu*((gamma-1)/BOLTZMANN)*PROTOMASS
-  double Temp;
-  double Uenergy= Umasa * pow(Udist,2) / pow(Utime,2);
+//  double Temp;
+ // double Uenergy= Umasa * pow(Udist,2) / pow(Utime,2);
 
   if(i==j) system("mkdir BHs");	
 
@@ -48,8 +48,8 @@ int BHS(int i, int j, double Udist, double Uvel,double Umasa, double Mgas_init, 
     string NomDENSGAS="DENS_GAS"+num.str();	
     string NomDENSSTAR="DENS_STAR"+num.str();	
   */
-        string NomTEMPGAS="RAD_TEMP_TIME_GAS"+num.str();	
-	string NomRhoCrit="RhoCrit";	
+ //       string NomTEMPGAS="RAD_TEMP_TIME_GAS"+num.str();	
+//	string NomRhoCrit="RhoCrit";	
 	/*
   string NomHIST="HIST_RHO_"+num.str();	
   string NomPHASE="RHO_TEMP"+num.str();	
@@ -59,12 +59,12 @@ int BHS(int i, int j, double Udist, double Uvel,double Umasa, double Mgas_init, 
   ofstream DENS_STARS(NomDENSSTAR.c_str());
 	*/
 
-  ofstream RAD_TEMP_TIME_GAS(NomTEMPGAS.c_str());
+ // ofstream RAD_TEMP_TIME_GAS(NomTEMPGAS.c_str());
 
 /*      ofstream HIST_OUT(NomHIST.c_str());
       ofstream PHASE_OUT(NomPHASE.c_str());
   */
-  ofstream RhoCrit_OUT(NomRhoCrit.c_str());
+ // ofstream RhoCrit_OUT(NomRhoCrit.c_str());
 
   FILE *DeltaGas_OUT;
   DeltaGas_OUT=fopen("Time_DeltaGas","a");
@@ -104,16 +104,16 @@ int BHS(int i, int j, double Udist, double Uvel,double Umasa, double Mgas_init, 
   
 
 
-  double RhoCrit,RhoNumCrit;
-  for(double logT=1;logT<=6*log(10);logT=logT+10){
-    RhoCrit=exp(logT)*exp(logT)*exp(logT)*(3/(4*pi))*(5*BOLTZMANN/(GRAVITY*PROTONMASS*1.22))*(5*BOLTZMANN/(GRAVITY*PROTONMASS*1.22))*(5*BOLTZMANN/(GRAVITY*PROTONMASS*1.22))*((Ngas/120)*(1/MasaU))*((Ngas/120)*(1/MasaU));
-    RhoNumCrit=RhoCrit/PROTONMASS;
-    RhoCrit_OUT<<RhoNumCrit<<" "<<exp(logT)<<endl;
+  //double RhoCrit,RhoNumCrit;
+  //for(double logT=1;logT<=6*log(10);logT=logT+10){
+   // RhoCrit=exp(logT)*exp(logT)*exp(logT)*(3/(4*pi))*(5*BOLTZMANN/(GRAVITY*PROTONMASS*1.22))*(5*BOLTZMANN/(GRAVITY*PROTONMASS*1.22))*(5*BOLTZMANN/(GRAVITY*PROTONMASS*1.22))*((Ngas/120)*(1/MasaU))*((Ngas/120)*(1/MasaU));
+    //RhoNumCrit=RhoCrit/PROTONMASS;
+    //RhoCrit_OUT<<RhoNumCrit<<" "<<exp(logT)<<endl;
     //fprintf(RhoCrit_OUT," %e %d \n",RhoCrit,T);
-  }
+  //}
   
   double Radio=0.0;
-  Temp=0.0;
+//  Temp=0.0;
   double Mgas=0.0;
   double MBH=0.0;
   double Pos_BH1[3], Pos_BH2[3], Vel_BH1[1], Vel_BH2[3];   
@@ -122,17 +122,17 @@ int BHS(int i, int j, double Udist, double Uvel,double Umasa, double Mgas_init, 
   // cout<<" Vtot= "<<Vtot<<"   Drho= "<<Drho<<endl;	
   for(int i=1;i<=NumPart;i++){ 
 //    cout<<"NumPat "<<NumPart<<endl; 
-    if(P[i].Type==0){
+    //if(P[i].Type==0){
 //	cout<<"Type 0 index --> "<<i<<"   NumPart-index --> "<<NumPart-i<<endl; 
 
-     Temp=(P[i].U*Uenergy/Umasa)*(4.0/(3*Xh+1))*PROTONMASS*((gamma-1)/BOLTZMANN);
-      Radio=sqrt(P[i].Pos[0]*P[i].Pos[0]+P[i].Pos[1]*P[i].Pos[1]+P[i].Pos[2]*P[i].Pos[2]);
-      RAD_TEMP_TIME_GAS<<Radio<<" "<<Temp<<" "<<header1.time*(Utime/year)<<endl;
-      Mgas=Mgas+P[i].Mass;
-     	
-    }	    
-    if(P[i].Type==BHS_TYPE ){  
-       cout<<"NumPat "<<NumPart<<endl; 
+     //Temp=(P[i].U*Uenergy/Umasa)*(4.0/(3*Xh+1))*PROTONMASS*((gamma-1)/BOLTZMANN);
+      //Radio=sqrt(P[i].Pos[0]*P[i].Pos[0]+P[i].Pos[1]*P[i].Pos[1]+P[i].Pos[2]*P[i].Pos[2]);
+      //RAD_TEMP_TIME_GAS<<Radio<<" "<<Temp<<" "<<header1.time*(Utime/year)<<endl;
+      //Mgas=Mgas+P[i].Mass;
+    //}
+
+    if(P[i].Type==BHS_TYPE ){
+       cout<<"NumPat "<<NumPart<<endl;
 
 	cout<<"Type BHs index --> "<<i<<"    NumPart-index --> "<<NumPart-i<<endl; 
 
@@ -175,7 +175,6 @@ int BHS(int i, int j, double Udist, double Uvel,double Umasa, double Mgas_init, 
 	   Vel_BH2[2]=P[i].Vel[2];
 
 	cout<<"end of reading velocity Second BH"<<endl;
-
 	   fprintf(VelBH2_Time,"%e %e %e %e \n",header1.time*(Utime/year),Vel_BH2[0],Vel_BH2[1],Vel_BH2[2]);
 	   fprintf(PosBH2_Time,"%e %e %e %e \n",header1.time*(Utime/year),Pos_BH2[0],Pos_BH2[1],Pos_BH2[2]);
 
@@ -186,9 +185,10 @@ int BHS(int i, int j, double Udist, double Uvel,double Umasa, double Mgas_init, 
     
   }
   
+           double TimeYear=header1.time*(Utime/year);
   
   double r2_BHs=(Udist*Udist/(parsec*parsec))*(Pos_BH1[0]-Pos_BH2[0])*(Pos_BH1[0]-Pos_BH2[0])+(Pos_BH1[1]-Pos_BH2[1])*(Pos_BH1[1]-Pos_BH2[1])+(Pos_BH1[2]-Pos_BH2[2])*(Pos_BH1[2]-Pos_BH2[2]);
-  fprintf(time_a_OUT,"%e %e \n",header1.time*(Utime/year),sqrt(r2_BHs)); // distancia en parsecs
+  fprintf(time_a_OUT,"%e %e \n",TimeYear,sqrt(r2_BHs)); // distancia en parsecs
 
   
   double   DeltaGas=Mgas/Mgas_init;
@@ -219,7 +219,7 @@ int BHS(int i, int j, double Udist, double Uvel,double Umasa, double Mgas_init, 
 
 ////////////////////////////////////////////////
 
-  RAD_TEMP_TIME_GAS.close();
+//  RAD_TEMP_TIME_GAS.close();
   fclose(DeltaGas_OUT);
   fclose(time_a_OUT);
 
@@ -258,8 +258,8 @@ void Medd_frac(){
 
   int i=0;
   while(i<Nline){
-     MBH1_MASS >> Time[i] >> MassBH1[i]; 
      MBH2_MASS >> Time[i] >> MassBH2[i]; 
+     MBH1_MASS >> Time[i] >> MassBH1[i]; 
      i++;
    }
 
@@ -278,9 +278,11 @@ void Medd_frac(){
 
    for(int k=0;k<Nline-1;k++){
       dm1=MassBH1[k+1]-MassBH1[k];
+
       dm2=MassBH2[k+1]-MassBH2[k];
+
       dt=Time[k+1]-Time[k];
-        
+
       Medd1=(MassBH1[k]*Msun)*Medd_constant; // in cgs (gr/s)
       Medd1=Medd1*(year/Msun);               // in Msun/year
 
@@ -288,11 +290,13 @@ void Medd_frac(){
       Medd2=Medd2*(year/Msun);               // in Msun/year
 
 
-      Mdot1=dm1/dt;        	
-      Mdot2=dm2/dt;        	
-          
+      Mdot1=dm1/dt;
+      Mdot2=dm2/dt;
       TIME_MEDD_FRAC_MBH1<<(Time[k+1]+Time[k])/2.0<<" "<<Mdot1/Medd1<<endl;
       TIME_MEDD_FRAC_MBH2<<(Time[k+1]+Time[k])/2.0<<" "<<Mdot2/Medd2<<endl;
+
+      cout<<"Mdot1 -> "<<Mdot1<<"  Medd1 ->"<<Medd1<<endl;
+      cout<<"Mdot2 -> "<<Mdot2<<  "Medd2 ->"<<Medd2<<endl;
    }
 
    TIME_MEDD_FRAC_MBH1.close();
@@ -301,5 +305,6 @@ void Medd_frac(){
    MBH2_MASS.close();
    lines.close();
 
+   cout<<" Medd_constant: "<<Medd_constant<<endl;
 
 }
