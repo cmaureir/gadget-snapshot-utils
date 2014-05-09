@@ -44,7 +44,6 @@ if __name__ == '__main__':
     # Now we have the time of the snapshot in `times`
     # and the masses of the BH in `bh_mass`
 
-
     Medd_constant = 4 * np.pi * GRAVITY * C * PROTONMASS / (0.1 * C * C * THOMPSON)
     print("Medd_constant: ", Medd_constant)
 
@@ -75,6 +74,10 @@ if __name__ == '__main__':
         mdot1_medd[i] = Mdot1/Medd1
         mdot2_medd[i] = Mdot2/Medd2
 
-    print(times_frac)
-    print(mdot1_medd)
-    print(mdot2_medd)
+    print(len(times_frac))
+    print(len(mdot1_medd))
+    print(len(mdot2_medd))
+    input()
+    x_label = r"$\frac{(T_{i+1} - T_{i})}{2.0}$"
+    y_label = r"$\frac{\dot{M}}{M_{edd}}$"
+    plot_x_ny(times_frac, [mdot1_medd, mdot2_medd], x_label, y_label)
